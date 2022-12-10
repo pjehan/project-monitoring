@@ -32,3 +32,37 @@ Il faut bien penser à répondre "yes" à la question posée par le script.
 ```shell
 composer require symfony/apache-pack
 ```
+
+### Création des entités
+
+J'ai ensuite créé les entités nécessaires au projet.
+J'ai tout d'abord créé les entités `Project`, `Category` et `Customer` avec la commande suivante :
+
+```shell
+php bin/console make:entity
+```
+
+Puis j'ai ensuite créé l'entité User avec la commande suivante :
+
+```shell
+php bin/console make:user
+```
+
+Ensuite, j'ai configuré la connexion à la base de données dans le fichier `.env.local` :
+
+```shell
+DATABASE_URL="mysql://root:@127.0.0.1:3306/project_monitoring?serverVersion=5.7&charset=utf8mb4"
+```
+
+J'ai ensuite créé la base de données avec la commande suivante :
+
+```shell
+php bin/console doctrine:database:create
+```
+
+Enfin, j'ai généré puis exécuté les fichiers de migration avec les commandes suivantes :
+
+```shell
+php bin/console make:migration
+php bin/console doctrine:migrations:migrate
+```
