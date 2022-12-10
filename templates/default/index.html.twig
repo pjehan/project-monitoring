@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block body %}
+
+        <div class="d-flex flex-column align-items-center justify-content-center vh-100">
+            <h1>Welcome to Project Monitoring</h1>
+            <p>Enter your customer code to see your projects.</p>
+
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary">Enter</button>
+            {{ form_end(form) }}
+
+        </div>
+
+{% endblock %}

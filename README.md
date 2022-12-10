@@ -168,6 +168,19 @@ J'ai volontairement omis d'importer les scripts de Bootstrap car je ne les
 utiliserai pas dans ce projet, mais je vous invite à consulter la documentation
 pour plus d'informations sur la mise en place du JS de Bootstrap.
 
+##### Configuration des formulaires pour utiliser Bootstrap
+
+[Documentation Symfony](https://symfony.com/doc/current/form/bootstrap5.html)
+
+J'ai ensuite configuré les formulaires pour utiliser Bootstrap en modifiant le
+fichier `config/packages/twig.yaml` :
+
+```yaml
+# config/packages/twig.yaml
+twig:
+    form_themes: ['bootstrap_5_layout.html.twig']
+```
+
 #### Installation de Font Awesome
 
 [Documentation Symfony](https://symfony.com/doc/current/frontend/encore/fontawesome.html)
@@ -188,3 +201,58 @@ $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/regular.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 ```
+
+### Création de la page d'accueil
+
+La page d'accueil du site affichera simplement un formulaire qui permettra aux
+clients d'accéder à leur espace perso en saisissant un code unique.
+
+J'ai donc commencé par générer le controller de la page d'accueil en utilisant
+la commande suivante :
+
+```shell
+php bin/console make:controller DefaultController
+```
+
+Cette commande permet de créer le fichier `src/Controller/DefaultController.php`
+mais également le fichier `templates/default/index.html.twig` qui contiendra le
+code HTML de la page d'accueil.
+
+J'ai ensuite modifié le controller pour adapter le code généré par la commande :
+
+```php
+// src/Controller/DefaultController.php
+#[Route('/', name: 'homepage')]
+public function index(): Response
+{
+    return $this->render('default/index.html.twig');
+}
+```
+
+Ensuite, j'ai souhaité afficher un formulaire sur la page d'accueil pour
+rechercher un client en fonction de son code unique.
+
+J'ai donc généré le formulaire en utilisant la commande suivante :
+
+```shell
+php bin/console make:form HomepageType
+```
+
+J'ai ensuite modifié ce fichier pour ne conserver que le champ 'code'.
+
+Après cela, j'ai modifié de nouveau le controller pour envoyer le formulaire
+à la vue :
+
+```php
+// src/Controller/DefaultController.php
+#[Route('/', name: 'homepage')]
+public function index(): Response
+{
+    $form = $this->createForm(HomepageType::class);
+
+    return $this->render('default/index.html.twig', ['form' => $form->createView()]);
+}
+```
+
+À noter que dans les prochaines version de Symfony, il ne sera plus nécessaire
+d'appeler la méthode `createView()` sur le formulaire.
