@@ -66,3 +66,23 @@ Enfin, j'ai généré puis exécuté les fichiers de migration avec les commande
 php bin/console make:migration
 php bin/console doctrine:migrations:migrate
 ```
+
+### Création des fixtures
+
+J'ai installé le bundle `DoctrineFixturesBundle` avec la commande suivante :
+
+```shell
+composer require --dev doctrine/doctrine-fixtures-bundle
+```
+
+J'ai ensuite supprimé le fichier `src/DataFixtures/AppFixtures.php` et créé un fichier de fixtures par entité Doctrine la commande suivante :
+
+```shell
+php bin/console make:fixtures
+```
+
+Après avoir créé les fixtures, j'ai exécuté la commande suivante pour les charger en base de données :
+
+```shell
+php bin/console doctrine:fixtures:load
+```
