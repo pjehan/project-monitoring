@@ -1,0 +1,48 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Project {{ project.name }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Project {{ project.name }}</h1>
+
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ project.name }}</td>
+            </tr>
+            <tr>
+                <th>DateStart</th>
+                <td>{{ project.dateStart ? project.dateStart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateEnd</th>
+                <td>{{ project.dateEnd ? project.dateEnd|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Hours</th>
+                <td>{{ project.hours }}</td>
+            </tr>
+            <tr>
+                <th>CostPerHour</th>
+                <td>{{ project.costPerHour }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="d-flex gap-2">
+            <a href="{{ path('admin_project_index') }}" class="btn btn-secondary">
+                <i class="fas fa-list"></i>
+                Back to list
+            </a>
+
+            <a href="{{ path('admin_project_edit', {'id': project.id}) }}" class="btn btn-primary">
+                <i class="far fa-edit"></i>
+                Edit
+            </a>
+
+            {{ include('admin/project/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

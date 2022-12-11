@@ -545,3 +545,14 @@ Modifier le fichier Twig templates/login/index.html.twig :
     </form>
 {% endblock %}
 ```
+
+### Création du CRUD de l'entité Project
+
+Pour générer le CRUD de l'entité Project, j'ai utilisé la commande suivante :
+
+```shell
+php bin/console make:crud Project
+```
+
+J'ai ensuite modifié les fichiers générés pour utiliser les styles de Bootstrap
+et corriger des erreurs au niveau des formulaires.

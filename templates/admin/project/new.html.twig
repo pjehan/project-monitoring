@@ -1,0 +1,16 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}New Project{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Create new Project</h1>
+
+        {{ include('admin/project/_form.html.twig') }}
+
+        <a href="{{ path('admin_project_index') }}" class="btn btn-secondary mt-2">
+            <i class="fas fa-list"></i>
+            Back to list
+        </a>
+    </div>
+{% endblock %}
