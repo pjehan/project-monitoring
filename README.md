@@ -402,3 +402,15 @@ Enfin, j'ai modifié le footer du site pour ajouter un lien vers l'administratio
     </footer>
 {% endblock %}
 ```
+
+### Sécurisation de l'administration
+
+Pour sécuriser les pages de l'administration, j'ai simplement décommenté la
+ligne suivante dans le fichier `config/packages/security.yaml` :
+
+```yaml
+# config/packages/security.yaml
+security:
+    access_control:
+         - { path: ^/admin, roles: ROLE_ADMIN }
+```
