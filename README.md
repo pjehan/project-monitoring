@@ -414,3 +414,67 @@ security:
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
 ```
+
+### Création de la page de login
+
+[Documentation Symfony](https://symfony.com/doc/current/security.html#form-login)
+
+```shell
+php bin/console make:controller Login
+```
+
+Modifier le fichier config/packages/security.yaml
+pour ajouter le code suivant dans le main firewall :
+
+```yaml
+# config/packages/security.yaml
+security:
+    firewalls:
+        main:
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                enable_csrf: true
+```
+
+Modifier le controller LoginController :
+```php
+#[Route('/login', name: 'app_login')]
+public function index(AuthenticationUtils $authenticationUtils): Response
+{
+    // Récupérer les erreurs du formulaire s'il y a des erreurs
+    $error = $authenticationUtils->getLastAuthenticationError();
+
+    // Récupérer le dernier email saisi
+    $lastUsername = $authenticationUtils->getLastUsername();
+
+    return $this->render('login/index.html.twig', [
+        'error' => $error,
+        'last_username' => $lastUsername,
+    ]);
+}
+```
+
+Modifier le fichier Twig templates/login/index.html.twig :
+```html
+{% block body %}
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('app_login') }}" method="post">
+        <label for="username">Email:</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password">
+
+        {# If you want to control the URL the user is redirected to on success
+        <input type="hidden" name="_target_path" value="/account"> #}
+
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+      
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}
+```
