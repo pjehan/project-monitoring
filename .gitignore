@@ -1,3 +1,5 @@
+.idea/
+*.bak
 
 ###> symfony/framework-bundle ###
 /.env.local
