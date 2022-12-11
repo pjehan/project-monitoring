@@ -1,5 +1,72 @@
 # Project Monitoring
 
+## Présentation du projet
+
+Ce projet a pour but de mettre en place un système permettant à des clients de
+consulter le nombre d'heures passées sur un projet par une entreprise.
+
+Chaque client peut consulter le nombre d'heures passées sur un projet en se
+connectant à l'application web à l'aide d'un code unique (ils n'ont pas besoin
+de créer de compte et de se connecter pour accéder à leurs données).
+
+Un administrateur peut quant à lui ajouter des clients et des projets et
+catégoriser les projets.
+
+### Base de données
+
+La base de données est composée de 3 tables principales :
+
+- `customer` : Contient les informations des clients avec notamment leur code
+  unique.
+- `category` : Contient la liste des catégories de projet.
+- `project` : Contient les informations des projets. Chaque projet peut être
+  associé à plusieurs catégories et doit obligatoirement être associé à un et
+  un seul client. Un projet contient également une date de début obligatoire
+  ainsi qu'une date de fin optionnelle. Le champ `hours` permet de stocker le
+  nombre d'heures passées sur le projet tandis que le champ `cost_per_hour`
+  permet de stocker le nombre d'heures passées sur un projet.
+
+![Diagramme MWB](project_monitoring.png)
+
+## Installation du projet
+
+Pour faire fonctionner ce projet sur votre machine, vous devez commencer par
+installer les dépendances du projet :
+
+```shell
+composer install
+npm install
+```
+
+Vous devez ensuite créer le fichier .env.local et saisir les informations de
+connexion à la base de données (ces données peuvent varier en fonction de votre
+environnement de développement) :
+
+```shell
+DATABASE_URL="mysql://root:@127.0.0.1:3306/project_monitoring?serverVersion=5.7&charset=utf8mb4"
+```
+
+Vous devez ensuite créer la base de données et les tables et charger les
+fixtures :
+
+```shell
+php bin/console doctrine:database:drop --force
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:migrate
+php bin/console doctrine:fixtures:load
+```
+
+Vous pouvez ensuite lancer le serveur de développement et la compilation des
+assets :
+
+```shell
+php -S localhost:8000 -t public
+```
+
+```shell
+npm run watch
+```
+
 ## Étapes suivies pour la création du projet
 
 ### Création du projet
@@ -456,7 +523,7 @@ public function index(AuthenticationUtils $authenticationUtils): Response
 ```
 
 Modifier le fichier Twig templates/login/index.html.twig :
-```html
+```twig
 {% block body %}
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
