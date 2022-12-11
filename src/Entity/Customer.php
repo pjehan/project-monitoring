@@ -60,7 +60,7 @@ class Customer
     }
 
     /**
-     * @return Collection<int, Project>
+     * @return Project[]
      */
     public function getProjects(): Collection
     {

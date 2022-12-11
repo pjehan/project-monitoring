@@ -256,3 +256,100 @@ public function index(): Response
 
 À noter que dans les prochaines version de Symfony, il ne sera plus nécessaire
 d'appeler la méthode `createView()` sur le formulaire.
+
+### Création de la page d'un client
+
+J'ai généré le controller de la page d'un client en utilisant la commande
+suivante :
+
+```shell
+php bin/console make:controller CustomerController
+```
+
+J'ai ensuite créé un formulaire Symfony pour afficher le formulaire de
+la page d'accueil. Pour cela, j'ai utilisé la commande suivante :
+
+```shell
+php bin/console make:form HomepageType
+```
+
+Ce formulaire est un petit peu particulier, car il ne permettra pas de créer
+un nouveau client en base de données, mais uniquement de rechercher un client
+en fonction de son code unique.
+
+J'ai donc modifié le fichier `src/Form/HomepageType.php` pour ne conserver que
+le champ 'code' :
+
+```php
+// src/Form/HomepageType.php
+$builder
+    ->add('code')
+;
+```
+
+J'ai ensuite modifié le controller de la page d'accueil pour envoyer le
+formulaire à la vue :
+
+```php
+// src/Controller/DefaultController.php
+#[Route('/', name: 'homepage')]
+public function index(Request $request, CustomerRepository $customerRepository): Response
+{
+    $customer = new Customer();
+    $form = $this->createForm(HomepageType::class, $customer);
+
+    $form->handleRequest($request);
+
+    // Si le formulaire a été validé, on redirige vers la page du client
+    if ($form->isSubmitted() && $form->isValid()) {
+        if ($customerRepository->findOneBy(['code' => $customer->getCode()])) {
+            return $this->redirectToRoute('customer_show', ['code' => $customer->getCode()]);
+        }
+
+        $this->addFlash('danger', 'Le code client n\'existe pas.');
+    }
+
+    return $this->render('default/index.html.twig', ['form' => $form->createView()]);
+}
+```
+
+Dans ce controller, j'ai également affiché un message flash dans le cas où le
+code client n'existe pas en base de données.
+
+J'ai ajouté le code suivant dans le fichier `templates/base.html.twig` pour
+afficher les messages flash :
+
+```twig
+{# templates/base.html.twig #}
+{% block messages %}
+    <div class="container">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }} mt-2">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}
+```
+
+Pour plus d'informations sur les messages flash, je vous invite à consulter la
+[Documentation Symfony](https://symfony.com/doc/current/controller.html#flash-messages).
+
+J'ai ensuite modifié le controller de la page d'un client pour afficher les
+informations du client en fonction de son code unique :
+
+```php
+// src/Controller/CustomerController.php
+#[Route('/customer/{code}', name: 'customer_show', methods: ['GET'])]
+public function index(Customer $customer): Response
+{
+    return $this->render('customer/show.html.twig', [
+        'customer' => $customer,
+    ]);
+}
+```
+
+Enfin, j'ai renommé puis modifié le fichier `templates/customer/show.html.twig`
+pour afficher les informations du client.

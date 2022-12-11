@@ -109,7 +109,7 @@ class Project
     }
 
     /**
-     * @return Collection<int, Category>
+     * @return Category[]
      */
     public function getCategories(): Collection
     {
@@ -142,5 +142,10 @@ class Project
         $this->customer = $customer;
 
         return $this;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->getHours() * $this->getCostPerHour();
     }
 }

@@ -18,6 +18,18 @@
         <div class="d-flex flex-column min-vh-100">
             {% block header %}{% endblock %}
 
+            {% block messages %}
+                <div class="container">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ label }} mt-2">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endblock %}
+
             <main class="flex-grow-1">
                 {% block body %}{% endblock %}
             </main>

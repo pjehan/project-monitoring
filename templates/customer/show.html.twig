@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ customer.name }}{% endblock %}
+
+{% block body %}
+
+    <section class="container">
+
+        <h1>Welcome on your dashboard {{ customer.name }}</h1>
+
+        <p>Here you can see a list of all your current projects with us!</p>
+
+        <h2>Projects list</h2>
+
+        <hr>
+
+        <div class="projects-list">
+            {% for project in customer.projects %}
+                <article class="card mb-2">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-2">
+                            <h3 class="card-title">
+                                {{ project.name }}
+                            </h3>
+                            <em class="text-secondary">
+                                ({{ project.dateStart|date('d/m/Y') }})
+                            </em>
+                        </div>
+                        <ul>
+                            <li>
+                                <i class="far fa-clock"></i>
+                                <strong>Hours</strong> : {{ project.hours }}
+                            </li>
+                            <li>
+                                <i class="fas fa-money-bill-1"></i>
+                                <strong>Cost per hour</strong> : {{ project.costPerHour }} €
+                            </li>
+                            <li>
+                                <i class="fas fa-money-bills"></i>
+                                <strong>Total cost</strong> : {{ project.price }} €
+                            </li>
+                        </ul>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 15%"></div>
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+    </section>
+
+{% endblock %}

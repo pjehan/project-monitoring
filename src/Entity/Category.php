@@ -44,7 +44,7 @@ class Category
     }
 
     /**
-     * @return Collection<int, Project>
+     * @return Project[]
      */
     public function getProjects(): Collection
     {
