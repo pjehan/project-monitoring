@@ -24,7 +24,7 @@ La base de données est composée de 3 tables principales :
   un seul client. Un projet contient également une date de début obligatoire
   ainsi qu'une date de fin optionnelle. Le champ `hours` permet de stocker le
   nombre d'heures passées sur le projet tandis que le champ `cost_per_hour`
-  permet de stocker le nombre d'heures passées sur un projet.
+  permet de stocker le coût par heure.
 
 ![Diagramme MWB](project_monitoring.png)
 
