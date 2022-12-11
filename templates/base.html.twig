@@ -37,7 +37,11 @@
             {% block footer %}
                 <footer>
                     <div class="container">
-
+                        <hr>
+                        <p class="text-center">
+                            &copy; {{ 'now'|date('Y') }} - Project Monitoring -
+                            <a href="{{ path('admin_dashboard') }}">admin</a>
+                        </p>
                     </div>
                 </footer>
             {% endblock %}

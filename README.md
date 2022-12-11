@@ -353,3 +353,52 @@ public function index(Customer $customer): Response
 
 Enfin, j'ai renommé puis modifié le fichier `templates/customer/show.html.twig`
 pour afficher les informations du client.
+
+### Création du dashboard de l'administration
+
+J'ai généré le controller du dashboard de l'administration en utilisant la
+commande suivante :
+
+```shell
+php bin/console make:controller Admin/DashboardController
+```
+
+J'ai ensuite créé le fichier `templates/admin/base.html.twig` pour avoir un
+fichier de template de base pour l'administration. Ce fichier hérite lui-même
+du fichier `templates/base.html.twig` et ajoute simplement un menu de navigation :
+
+```twig
+{# templates/admin/base.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block header %}
+    <nav class="navbar navbar-expand-lg sticky-top">
+        ...
+    </nav>
+{% endblock %}
+```
+
+Ensuite j'ai modifié le fichier `templates/admin/dashboard/index.html.twig`
+pour qu'il hérite du fichier `templates/admin/base.html.twig` :
+
+```twig
+{# templates/admin/dashboard/index.html.twig #}
+{% extends 'admin/base.html.twig' %}
+```
+
+Enfin, j'ai modifié le footer du site pour ajouter un lien vers l'administration :
+
+```twig
+{# templates/base.html.twig #}
+{% block footer %}
+    <footer>
+        <div class="container">
+            <hr>
+            <p class="text-center">
+                &copy; {{ 'now'|date('Y') }} - Project Monitoring -
+                <a href="{{ path('admin_dashboard') }}">admin</a>
+            </p>
+        </div>
+    </footer>
+{% endblock %}
+```
