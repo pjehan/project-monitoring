@@ -12,6 +12,16 @@ de créer de compte et de se connecter pour accéder à leurs données).
 Un administrateur peut quant à lui ajouter des clients et des projets et
 catégoriser les projets.
 
+Pour afficher la page listant les projets d'un client, vous pouvez utiliser
+l'un des codes suivants :
+- acme
+- sensiolabs
+
+Pour se connecter à l'interface d'administration, vous pouvez utiliser le
+compte suivant :
+- login : admin@gmail.com
+- password : admin
+
 ### Base de données
 
 La base de données est composée de 3 tables principales :
